@@ -1,0 +1,51 @@
+name: Site Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate static site
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f index.html
+          test -f bilgi-rotasi.html
+          test -f privacy.html
+          test -f robots.txt
+          test -f sitemap.xml
+          test -f app-ads.txt
+          test -f CNAME
+          test "$(tr -d '\r\n' < CNAME)" = "zmilastudio.com"
+          test "$(tr -d '\r\n' < app-ads.txt)" = "google.com, pub-7452194004008791, DIRECT, f08c47fec0942fa0"
+          grep -q 'https://zmilastudio.com/sitemap.xml' robots.txt
+          grep -q 'com.leventua.bilgirotasi' index.html
+          grep -q 'com.leventua.bilgirotasi' bilgi-rotasi.html
+
+      - name: Parse HTML and sitemap
+        shell: python
+        run: |
+          from html.parser import HTMLParser
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+
+          class Parser(HTMLParser):
+              pass
+
+          for filename in ["index.html", "bilgi-rotasi.html", "privacy.html"]:
+              text = Path(filename).read_text(encoding="utf-8")
+              Parser().feed(text)
+              if "<title>" not in text or "canonical" not in text:
+                  raise SystemExit(f"Missing SEO metadata in {filename}")
+
+          ET.parse("sitemap.xml")
+          print("Static site validation: PASS")
