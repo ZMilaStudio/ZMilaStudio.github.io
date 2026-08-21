@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Dizily hesabı ve ilişkili verileri silme talimatları.">
+  <title>Dizily Hesap ve Veri Silme | ZMila Studio</title>
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://zmilastudio.com/dizily/account-deletion/">
+  <meta name="theme-color" content="#0b1020">
+  <style>
+    :root{--bg:#07101d;--panel:#101b2f;--text:#f5f7fb;--muted:#aeb9c8;--danger:#ef5b67;--line:#283954}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#07101d,#0b1727);color:var(--text);line-height:1.72}.wrap{width:min(900px,calc(100% - 32px));margin:auto}.nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}.nav a,a{color:#c9bbff}.nav a{text-decoration:none}article{padding:clamp(24px,5vw,44px);border:1px solid var(--line);border-radius:24px;background:var(--panel);margin:18px 0 48px}h1{font-size:clamp(36px,7vw,58px);line-height:1.08;margin:0 0 12px}h2{margin-top:32px;font-size:24px}p,li{color:var(--muted)}.warning{padding:16px 18px;border-left:4px solid var(--danger);background:#251017;border-radius:12px}code{background:#080c18;padding:.15rem .4rem;border-radius:.4rem}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav"><strong>ZMila Studio</strong><a href="../">← Dizily</a></nav>
+    <article>
+      <h1>Dizily Hesap ve Veri Silme</h1>
+      <p><strong>Uygulama:</strong> Dizily · <strong>Paket:</strong> <code>app.dizily</code> · <strong>Son güncelleme:</strong> 21 Ağustos 2026</p>
+      <p>Dizily hesabınızı ve hesabınıza bağlı verileri uygulama içinden silebilir veya uygulamaya erişemiyorsanız dış silme talebi gönderebilirsiniz.</p>
+
+      <h2>Uygulama içinden silme</h2>
+      <ol>
+        <li>Dizily’yi açın ve hesabınızla giriş yapın.</li>
+        <li><strong>Ayarlar</strong> bölümüne girin.</li>
+        <li><strong>Hesabımı ve Verilerimi Sil</strong> seçeneğine dokunun.</li>
+        <li>Silinecek veri listesini inceleyin.</li>
+        <li>Gerekirse kimliğinizi yeniden doğrulayın.</li>
+        <li>Silme işlemini onaylayın.</li>
+      </ol>
+      <p>İşlem yalnız aktif kullanıcının hesap kapsamındaki verileri hedefler. Silme adımlarından biri tamamlanamazsa uygulama işlemi tam başarı olarak göstermemelidir.</p>
+
+      <h2>Uygulama dışından silme talebi</h2>
+      <p>Uygulamaya erişemiyorsanız Dizily hesabınızda kullandığınız e-posta adresinden <a href="mailto:dizilydestek@gmail.com?subject=Dizily%20hesap%20silme%20talebi">dizilydestek@gmail.com</a> adresine <strong>Dizily hesap silme talebi</strong> konusuyla yazabilirsiniz.</p>
+      <p class="warning"><strong>Şifrenizi, Google şifrenizi, doğrulama kodunuzu veya başka bir gizli bilgiyi göndermeyin.</strong> Hesabın size ait olduğunu doğrulamak için aynı e-posta adresinden yanıt veya güvenli yeniden doğrulama istenebilir.</p>
+
+      <h2>Silinecek veriler</h2>
+      <ul>
+        <li>Firebase Authentication hesabı ve hesaba bağlı kullanıcı kapsamı,</li>
+        <li>takip edilen diziler, izlenen bölümler, tekrar izleme sayıları, favoriler ve ilerleme kayıtları,</li>
+        <li>izlenen ve izlenecek filmler,</li>
+        <li>hesaba bağlı uygulama ve bildirim tercihleri,</li>
+        <li>hesaba bağlı push notification kurulum kayıtları,</li>
+        <li>hesaba bağlı diğer Firestore kayıtları,</li>
+        <li>cihazdaki ilgili kullanıcı kapsamına ait yerel veriler ve planlanmış bildirimler.</li>
+      </ul>
+
+      <h2>Misafir verileri</h2>
+      <p>Misafir verileri Firebase hesabına bağlı değildir ve cihazda ayrı yerel kapsamda tutulur. Android uygulama verilerini temizlemek veya uygulamayı kaldırmak bu yerel misafir verilerini kaldırır.</p>
+
+      <h2>İşlem süresi</h2>
+      <p>Doğrulanmış dış silme taleplerini mümkün olduğunda 7 gün içinde, en geç 30 gün içinde tamamlamayı hedefleriz. Teknik veya yasal bir nedenle daha uzun süre gerekirse kullanıcıya bilgi verilir.</p>
+
+      <h2>Saklanabilecek sınırlı veriler</h2>
+      <p>Yasal zorunluluk, güvenlik, dolandırıcılık veya kötüye kullanımın önlenmesi gibi zorunlu bir neden bulunursa sınırlı kayıtların tutulması gerekebilir. Böyle bir durumda talep sahibine uygun bilgi verilir.</p>
+
+      <h2>Önemli sonuçlar</h2>
+      <ul>
+        <li>Hesap silme işlemi geri alınamaz.</li>
+        <li>Silinen bulut arşivi geri yüklenemez.</li>
+        <li>Aynı e-posta ile yeni hesap oluşturmak eski verileri geri getirmez.</li>
+        <li>Yalnız uygulamayı kaldırmak buluttaki hesabı ve verileri silmez.</li>
+      </ul>
+
+      <h2>İletişim</h2>
+      <p><strong>ZMila Studio</strong><br>Destek: <a href="mailto:dizilydestek@gmail.com">dizilydestek@gmail.com</a><br>Gizlilik: <a href="../privacy/">Dizily Gizlilik Politikası</a></p>
+    </article>
+  </div>
+</body>
+</html>
