@@ -21,6 +21,7 @@ jobs:
           test -f index.html
           test -f bilgi-rotasi.html
           test -f privacy.html
+          test -f futbol-baskanlik-simulatoru/privacy/index.html
           test -f robots.txt
           test -f sitemap.xml
           test -f app-ads.txt
@@ -30,6 +31,8 @@ jobs:
           grep -q 'https://zmilastudio.com/sitemap.xml' robots.txt
           grep -q 'com.leventua.bilgirotasi' index.html
           grep -q 'com.leventua.bilgirotasi' bilgi-rotasi.html
+          grep -Fq 'href="futbol-baskanlik-simulatoru/privacy/"' index.html
+          grep -Fq 'https://zmilastudio.com/futbol-baskanlik-simulatoru/privacy/' sitemap.xml
 
       - name: Parse HTML and sitemap
         shell: python
@@ -39,13 +42,55 @@ jobs:
           import xml.etree.ElementTree as ET
 
           class Parser(HTMLParser):
-              pass
+              def __init__(self):
+                  super().__init__()
+                  self.title = ""
+                  self.in_title = False
+                  self.canonical = None
 
-          for filename in ["index.html", "bilgi-rotasi.html", "privacy.html"]:
-              text = Path(filename).read_text(encoding="utf-8")
-              Parser().feed(text)
-              if "<title>" not in text or "canonical" not in text:
+              def handle_starttag(self, tag, attrs):
+                  attributes = dict(attrs)
+                  if tag == "title":
+                      self.in_title = True
+                  if tag == "link" and attributes.get("rel") == "canonical":
+                      self.canonical = attributes.get("href")
+
+              def handle_endtag(self, tag):
+                  if tag == "title":
+                      self.in_title = False
+
+              def handle_data(self, data):
+                  if self.in_title:
+                      self.title += data
+
+          policy_path = "futbol-baskanlik-simulatoru/privacy/index.html"
+          policy_url = "https://zmilastudio.com/futbol-baskanlik-simulatoru/privacy/"
+          policy_title = "Futbol Başkanlık Simülatörü Gizlilik Politikası | ZMila Studio"
+
+          for filename in ["index.html", "bilgi-rotasi.html", "privacy.html", policy_path]:
+              content = Path(filename).read_text(encoding="utf-8")
+              parser = Parser()
+              parser.feed(content)
+              parser.close()
+              if not parser.title.strip() or not parser.canonical:
                   raise SystemExit(f"Missing SEO metadata in {filename}")
+              if filename == policy_path:
+                  if parser.title.strip() != policy_title or parser.canonical != policy_url:
+                      raise SystemExit("FBS privacy title/canonical mismatch")
+                  for required in ["com.zmilastudio.futbol_baskanlik_app",
+                                   "save_slots", "Android sistem yedeklemesi",
+                                   "zmilastudio@gmail.com"]:
+                      if required not in content:
+                          raise SystemExit(f"FBS privacy missing required content: {required}")
 
-          ET.parse("sitemap.xml")
+          sitemap = ET.parse("sitemap.xml")
+          sitemap_urls = [
+              element.text for element in sitemap.iter()
+              if element.tag.endswith("}loc") or element.tag == "loc"
+          ]
+          if sitemap_urls.count(policy_url) != 1:
+              raise SystemExit("FBS privacy URL missing or duplicated in sitemap")
+          if 'href="futbol-baskanlik-simulatoru/privacy/"' not in Path("index.html").read_text(encoding="utf-8"):
+              raise SystemExit("FBS privacy link missing from home page")
+
           print("Static site validation: PASS")
